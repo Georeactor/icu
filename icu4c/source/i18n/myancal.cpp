@@ -215,7 +215,8 @@ int32_t MyanmarCalendar::handleComputeMonthStart(int32_t eyear, int32_t monthOrd
     int32_t month = monthOrder;
     // if (month == 4) {
     //   month = 0;
-    // } else if (month > 4) {
+    // }
+    // else if (month > 4) {
     //   month--;
     // }
     int32_t myan_day = 1; // first of month
