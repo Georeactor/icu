@@ -46,7 +46,7 @@ class MyanmarCalendar : public Calendar {
    * Constants for the months
    * @internal
    */
-  enum EMonths {
+  enum UCalendarMonths {
     /**
      * Months of Myanmar calendar
      * @internal

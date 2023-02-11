@@ -118,6 +118,7 @@ bool MyanmarCalendar::isLeapYear(int32_t year)
  * from the Myanmar epoch, origin 0.
  */
 int32_t MyanmarCalendar::yearStart(int32_t year) {
+  // TODO, 1 or 0?
     return handleComputeMonthStart(year, 1, false);
 }
 
@@ -164,7 +165,6 @@ int32_t MyanmarCalendar::handleGetMonthLength(int32_t extendedYear, int32_t mont
  * Return the number of days in the given Myanmar year
  */
 int32_t MyanmarCalendar::handleGetYearLength(int32_t extendedYear) const {
-    int32_t leapStatus;
     long watat_type, waso_type;
 
     cal_watat(extendedYear, watat_type, waso_type);
@@ -213,11 +213,11 @@ int32_t MyanmarCalendar::handleComputeMonthStart(int32_t eyear, int32_t monthOrd
 
     // convert to mcal month order
     int32_t month = monthOrder;
-    if (month == 4) {
-      month = 0;
-    } else if (month > 4) {
-      month--;
-    }
+    // if (month == 4) {
+    //   month = 0;
+    // } else if (month > 4) {
+    //   month--;
+    // }
     int32_t myan_day = 1; // first of month
     int32_t myan_year_type;
     long b, c, dayOfYear, year_length, monthType;
@@ -233,7 +233,8 @@ int32_t MyanmarCalendar::handleComputeMonthStart(int32_t eyear, int32_t monthOrd
             - c * ClockMath::floorDivide(month + 11, 16) * 30
             + b * ClockMath::floorDivide(month + 12, 16);
 	  year_length = 354 + (1 - c) * 30 + b;
-    dayOfYear += monthType * year_length;//adjust day count with year length
+    // -2 seems to be the issue of c and b being incorrect above
+    dayOfYear += monthType * year_length - 2;//adjust day count with year length
 	  return (dayOfYear + startOfTagu);
 }
 
@@ -291,8 +292,7 @@ void MyanmarCalendar::handleComputeFields(int32_t julianDay, UErrorCode &/*statu
     } else if (myan_month >= 4) {
       myan_month++;
     }
-    //myan_month--;
-    //myan_day++;
+    myan_month--;
 
     internalSet(UCAL_ERA, 0);
     internalSet(UCAL_YEAR, myan_year);

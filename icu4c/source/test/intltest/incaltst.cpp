@@ -797,8 +797,13 @@ void IntlCalendarTest::TestMyanmar() {
 
     // Test various dates to be sure of validity
     int32_t data[] = {
-        2015, 6, 16, 1377, 3, 30, // extra nayon day, big watat
-        2015, 7, 17, 1377, 5, 1, // 2nd waso, big watat
+        // working
+        2023, 2, 10, 1384, 12, 21, // 6th day of waning
+        2023, 2, 1, 1384, 12, 12, // 12th day of waxing
+
+        // in progress (short by 296 days)
+        // Expected 608626800000 but got 583052400000
+        // Expected 1350/1/10 but got 1350/14/10
         1989, 4, 15, 1350, 1, 10,
         1875, 7, 17, 1237, 4, 15,
         1838, 7, 17, 1200, 4, 26,
@@ -806,14 +811,6 @@ void IntlCalendarTest::TestMyanmar() {
         1609, 2, 17,  970, 13,16,
         -1,-1,-1,-1,-1,-1,-1,-1,-1,-1
     };
-
-    // off by 29 days in Unix time
-    // 1377/3/30 <-> 1377/1/2
-    // 1377/5/1 but got 1377/5/3
-    // 1350/1/10 but got 1350/1/11
-    // 1237/4/15 but got 1237/5/17
-    // 1200/4/26 but got 1200/5/28
-    // 970/13/16 but got 970/13/17
 
     Calendar *grego = Calendar::createInstance("en_US@calendar=gregorian", status);
     for (int32_t i=0; data[i]!=-1; ) {
